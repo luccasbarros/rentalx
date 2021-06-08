@@ -12,12 +12,11 @@ const uploadAvatar = multer(uploadConfig.upload("./tmp/avatar"));
 const createUserController = new CreateUserController();
 const updateUserAvatarController = new UpdateUserAvatarController();
 
-usersRoutes.use(ensureAuthenticated);
-
 usersRoutes.post("/", createUserController.handle);
 
 usersRoutes.patch(
   "/avatar",
+  ensureAuthenticated,
   uploadAvatar.single("avatar"),
   updateUserAvatarController.handle
 );
