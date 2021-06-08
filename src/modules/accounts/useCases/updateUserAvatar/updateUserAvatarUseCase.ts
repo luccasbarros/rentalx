@@ -1,5 +1,4 @@
 import { inject, injectable } from "tsyringe";
-import { isConstructorToken } from "tsyringe/dist/typings/providers/injection-token";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 
 interface IRequest {
