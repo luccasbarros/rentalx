@@ -1,4 +1,4 @@
-import { inject } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 import { isConstructorToken } from "tsyringe/dist/typings/providers/injection-token";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 
@@ -7,6 +7,7 @@ interface IRequest {
   avatarFile: string;
 }
 
+@injectable()
 class UpdateUserAvatarUseCase {
   constructor(
     @inject("UsersRepository")
