@@ -1,9 +1,7 @@
+import { ICreateSpecificationDTO, ISpecificationsRepository } from "src/modules/cars/repositories/ISpecificationRepository";
 import { getRepository, Repository } from "typeorm";
-import { Specification } from "../../entities/Specification";
-import {
-  ICreateSpecificationDTO,
-  ISpecificationsRepository,
-} from "../ISpecificationRepository";
+import { Specification } from "../entities/Specification";
+
 
 class SpecificationsRepository implements ISpecificationsRepository {
   private repository: Repository<Specification>;
