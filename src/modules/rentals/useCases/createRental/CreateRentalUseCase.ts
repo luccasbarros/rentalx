@@ -1,10 +1,7 @@
 import { AppError } from "../../../../shared/errors/AppError";
 import { Rental } from "../../infra/typeorm/entities/Rental";
 import { IRentalsRepository } from "../../repositories/IRentalsRepository";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-
-dayjs.extend(utc);
+import { IDateProvider } from "..//../../../shared/container/providers/DateProvider/IDateProvider";
 
 interface IRequest {
   user_id: string;
@@ -13,7 +10,10 @@ interface IRequest {
 }
 
 class CreateRentalUseCase {
-  constructor(private rentalsRepository: IRentalsRepository) {}
+  constructor(
+    private rentalsRepository: IRentalsRepository,
+    private dateProvider: IDateProvider
+  ) {}
   async execute({
     user_id,
     car_id,
@@ -36,13 +36,11 @@ class CreateRentalUseCase {
       throw new AppError("You have an open rental", 400);
     }
 
-    const expectedReturnDateFormat = dayjs(expected_return_date)
-      .utc()
-      .local()
-      .format();
-
-    const dateNow = dayjs().utc().local().format();
-    const compare = dayjs(expectedReturnDateFormat).diff(dateNow, "hours");
+    const dateNow = this.dateProvider.dateNow();
+    const compare = this.dateProvider.compareInHours(
+      dateNow,
+      expected_return_date
+    );
 
     if (compare < compareHours) {
       throw new AppError("Expected return date is in the past", 400);
