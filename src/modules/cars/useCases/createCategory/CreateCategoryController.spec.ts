@@ -24,7 +24,7 @@ describe("Create category controller", () => {
   });
 
   afterAll(async () => {
-    // await connection.dropDatabase();
+    await connection.dropDatabase();
     await connection.close();
   });
 
@@ -34,13 +34,39 @@ describe("Create category controller", () => {
       password: "admin",
     });
 
-    console.log(responseToken.body);
+    const { token } = responseToken.body;
 
-    const response = await request(app).post("/categories").send({
-      name: "test",
-      description: "test",
-    });
+    const response = await request(app)
+      .post("/categories")
+      .send({
+        name: "test",
+        description: "test",
+      })
+      .set({
+        Authorization: `Bearer ${token}`,
+      });
 
     expect(response.status).toBe(201);
+  });
+
+  it("shoud not be able to create a new category if name exists", async () => {
+    const responseToken = await request(app).post("/sessions").send({
+      email: "admin@admin.com.br",
+      password: "admin",
+    });
+
+    const { token } = responseToken.body;
+
+    const response = await request(app)
+      .post("/categories")
+      .send({
+        name: "test",
+        description: "test",
+      })
+      .set({
+        Authorization: `Bearer ${token}`,
+      });
+
+    expect(response.status).toBe(400);
   });
 });
