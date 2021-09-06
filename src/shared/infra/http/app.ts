@@ -9,6 +9,7 @@ import { AppError } from "../../errors/AppError";
 import createConnection from "../typeorm";
 
 createConnection();
+
 const app = express();
 
 app.use(express.json());
