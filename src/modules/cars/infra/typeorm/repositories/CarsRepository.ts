@@ -1,5 +1,5 @@
-import { ICreateCarDTO } from "src/modules/cars/dtos/ICreateCarDTO";
-import { ICarsRepository } from "src/modules/cars/repositories/ICarsRepository";
+import { ICreateCarDTO } from "../../../../../modules/cars/dtos/ICreateCarDTO";
+import { ICarsRepository } from "../../../../../modules/cars/repositories/ICarsRepository";
 import { getRepository, Repository } from "typeorm";
 import { Car } from "../entities/Cars";
 
@@ -71,7 +71,7 @@ class CarsRepository implements ICarsRepository {
   }
 
   async updateAvailable(id: string, available: boolean): Promise<void> {
-    const car = await this.repository
+    await this.repository
       .createQueryBuilder()
       .update()
       .set({ available })
