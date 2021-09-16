@@ -65,8 +65,8 @@ describe("Create Rental", () => {
   it("should not be able to create a new rental if there is another open to the same car", async () => {
     await rentalsRepositoryInMemory.create({
       car_id: "test",
-      expected_return_date: dayAdd24Hours,
       user_id: "12345",
+      expected_return_date: dayAdd24Hours,
     });
     expect(
       createRentalUseCase.execute({
@@ -78,7 +78,7 @@ describe("Create Rental", () => {
   });
 
   it("should not be able to create a new rental with invalid return time", async () => {
-    expect(
+    await expect(
       createRentalUseCase.execute({
         user_id: "12345",
         car_id: "test",

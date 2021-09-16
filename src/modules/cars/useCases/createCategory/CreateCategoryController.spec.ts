@@ -2,7 +2,7 @@ import { app } from "../../../../shared/infra/http/app";
 import request from "supertest";
 import createConnection from "../../../../shared/infra/typeorm";
 import { Connection } from "typeorm";
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 import { v4 as uuidv4 } from "uuid";
 
 let connection: Connection;
