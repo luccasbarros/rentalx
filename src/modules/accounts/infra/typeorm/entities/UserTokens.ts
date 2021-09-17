@@ -1,13 +1,14 @@
 import {
   Column,
   CreateDateColumn,
+  Entity,
   JoinColumn,
   ManyToOne,
   PrimaryColumn,
 } from "typeorm";
 import { User } from "./User";
 import { v4 as uuidv4 } from "uuid";
-
+@Entity("users_tokens")
 class UserTokens {
   @PrimaryColumn()
   id: string;
