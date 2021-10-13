@@ -1,0 +1,26 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.carRoutes = void 0;
+var express_1 = require("express");
+var upload_1 = __importDefault(require("../../../../config/upload"));
+var ListAvailableCarsController_1 = require("../../../../modules/cars/useCases/listAvailableCars/ListAvailableCarsController");
+var CreateCarController_1 = require("../../../../modules/cars/useCases/createCar/CreateCarController");
+var ensureAdmin_1 = require("../middlewares/ensureAdmin");
+var ensureAuthenticated_1 = require("../middlewares/ensureAuthenticated");
+var CreateCarSpecificationController_1 = require("../../../../modules/cars/useCases/createCarSpecification/CreateCarSpecificationController");
+var UploadCarImageController_1 = require("../../../../modules/cars/useCases/uploadCarImage/UploadCarImageController");
+var multer_1 = __importDefault(require("multer"));
+var carRoutes = express_1.Router();
+exports.carRoutes = carRoutes;
+var createCarController = new CreateCarController_1.CreateCarController();
+var listAvailableCarsController = new ListAvailableCarsController_1.ListAvailableCarsController();
+var createCarSpecificationController = new CreateCarSpecificationController_1.CreateCarSpecificationController();
+var uploadCarImageController = new UploadCarImageController_1.UploadCarImageController();
+var upload = multer_1.default(upload_1.default);
+carRoutes.post("/", ensureAuthenticated_1.ensureAuthenticated, ensureAdmin_1.ensureAdmin, createCarController.handle);
+carRoutes.get("/available", listAvailableCarsController.handle);
+carRoutes.post("/specifications/:id", ensureAuthenticated_1.ensureAuthenticated, ensureAdmin_1.ensureAdmin, createCarSpecificationController.handle);
+carRoutes.post("/images/:id", ensureAuthenticated_1.ensureAuthenticated, ensureAdmin_1.ensureAdmin, upload.array("images"), uploadCarImageController.handle);
