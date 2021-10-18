@@ -9,10 +9,13 @@ import { router } from "./routes";
 import { AppError } from "../../errors/AppError";
 import createConnection from "../typeorm";
 import upload from "../../../config/upload";
+import rateLimiter from "../http/middlewares/rateLimiter";
 
 createConnection();
 
 const app = express();
+
+app.use(rateLimiter);
 
 app.use(express.json());
 
